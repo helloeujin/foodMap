@@ -9,10 +9,12 @@ export default function App() {
   // SELECT IMAGE
   const selectImage = () => {
     let options = {
-      strageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
+      selectionLimit: 0, // Default is 1, use 0 to allow any number of files
+      mediaType: "photo",
+      includeBase64: false,
+      includeExtra: false,
+      maxWidth: 600, // To resize the image
+      maxHeight: 600, // To resize the image
     };
 
     launchImageLibrary(options, (response) => {
@@ -23,7 +25,7 @@ export default function App() {
       } else if (response.errorCode) {
         console.log("ImagePicker error: ", response.error);
       } else {
-        setResourcePath(response.assets[0]);
+        setResourcePath(response.assets);
       }
     });
   };
@@ -31,10 +33,10 @@ export default function App() {
   // TAKE PHOTO
   const takePhoto = () => {
     let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
+      saveToPhotos: true,
+      mediaType: "photo",
+      includeBase64: false,
+      includeExtra: false,
     };
 
     launchCamera(options, (response) => {
@@ -45,26 +47,31 @@ export default function App() {
       } else if (response.errorCode) {
         console.log("CameraPicker error: ", response.error);
       } else {
-        setResourcePath(response.assets[0]);
+        setResourcePath(response.assets);
       }
     });
   };
 
-  // useEffect(() => {
-  //   console.log(resourcePath);
-  //   console.log(resourcePath.uri);
-  // }, [resourcePath]);
+  useEffect(() => {
+    console.log(resourcePath);
+    // console.log(resourcePath.uri);
+  }, [resourcePath]);
 
   return (
     <View style={styles.container}>
       <Button title="앨범에서 사진 선택" onPress={selectImage} />
       <Button title="사진 촬영" onPress={takePhoto} />
-      {resourcePath.uri && (
-        <Image
-          source={{ uri: resourcePath.uri }}
-          style={{ width: 200, height: 200 }}
-        />
-      )}
+      {resourcePath.length > 0 &&
+        resourcePath.map((resource, index) => {
+          console.log(resource);
+          return (
+            <Image
+              key={`resource` + index}
+              source={{ uri: resource.uri }}
+              style={{ width: 110, height: 110 }}
+            />
+          );
+        })}
     </View>
   );
 }
