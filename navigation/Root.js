@@ -7,7 +7,12 @@ const Nav = createStackNavigator();
   /* <Nav.Screen name="Stack" component={Stack} /> */
 }
 const Root = () => (
-  <Nav.Navigator initialRouteName="Stack">
+  <Nav.Navigator
+    initialRouteName="Stack"
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
     <Nav.Group>
       <Nav.Screen name="Stack" component={Stack} />
     </Nav.Group>

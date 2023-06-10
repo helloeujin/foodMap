@@ -7,7 +7,11 @@ const Nav = createStackNavigator();
 
 const Stack = () => {
   return (
-    <Nav.Navigator>
+    <Nav.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Nav.Screen name="MainScreen" component={MainScreen} />
     </Nav.Navigator>
   );
