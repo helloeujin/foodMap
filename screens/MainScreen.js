@@ -68,8 +68,20 @@ const MainScreen = () => {
   }, [resourcePath]);
 
   return (
-    <View>
-      <Text>TEXT</Text>
+    <View style={styles.container}>
+      <Button title="앨범에서 사진 선택" onPress={selectImage} />
+      <Button title="사진 촬영" onPress={takePhoto} />
+      {resourcePath.length > 0 &&
+        resourcePath.map((resource, index) => {
+          console.log(resource);
+          return (
+            <Image
+              key={`resource` + index}
+              source={{ uri: resource.uri }}
+              style={{ width: 110, height: 110 }}
+            />
+          );
+        })}
     </View>
   );
 };
@@ -100,5 +112,11 @@ const styles = StyleSheet.create({
       />
     );
   })}
+</View> */
+}
+
+{
+  /* <View>
+<Text>TEXT</Text>
 </View> */
 }
