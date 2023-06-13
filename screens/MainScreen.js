@@ -10,15 +10,48 @@ import {
   ScrollView,
 } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import {
+  Ionicons,
+  FontAwesome,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PostContext } from "../contexts/PostContext";
 import Swiper from "react-native-swiper";
 
-const Container = styled.View`
-  flex: 1;
-  background-color: red;
+const Header = styled.View`
+  display: flex;
+  height: 120px;
   justify-content: flex-start;
+  align-items: flex-end;
+  flex-direction: row;
+  padding: 10px 30px;
+
+  border-bottom-color: #eee;
+  border-bottom-width: 1px;
+`;
+
+const HeaderText = styled.Text`
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 10px;
+`;
+
+const Location = styled.View`
+  display: flex;
+  height: 50px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-direction: row;
+  padding: 10px 30px;
+`;
+
+const Bttn = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1;
 `;
 
 const Txt = styled.Text`
@@ -81,34 +114,48 @@ const MainScreen = ({ navigation }) => {
     });
   };
 
+  // console.log(posts);
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={selectImage}>
-        <FontAwesome name="photo" size={24} color="black" />
-      </TouchableOpacity>
+      <Header>
+        <MaterialCommunityIcons name="face-man" size={30} color="black" />
+        <HeaderText>Youjin</HeaderText>
+      </Header>
 
       <ScrollView contentContainerStyle={styles.ScrollView}>
-        {posts.map((post, index) => (
-          <View key={index} style={styles.postContainer}>
-            <Text style={styles.postLocation}>{post.location}</Text>
-            {post.images && (
-              <View style={styles.imageContainer}>
-                <Swiper showsButtons={false}>
-                  {post.images.map((image, imageIndex) => (
-                    <Image
-                      key={imageIndex}
-                      source={{ uri: image }}
-                      style={styles.postImage}
-                      resizeMode="cover"
-                    />
-                  ))}
-                </Swiper>
-              </View>
-            )}
-            <Text style={styles.postText}>{post.content}</Text>
-          </View>
-        ))}
+        {posts.map((temp, index) => {
+          const post = posts[posts.length - 1 - index];
+          return (
+            <View key={index} style={{ marginTop: index === 0 ? 0 : 40 }}>
+              <Location>
+                {/* <MaterialIcons name="location-on" size={24} color="black" /> */}
+                <Text style={styles.postLocation}>{post.location}</Text>
+              </Location>
+
+              <Text style={styles.postText}>{post.content}</Text>
+
+              {post.images && (
+                <View style={styles.imageContainer}>
+                  <Swiper showsButtons={false}>
+                    {post.images.map((image, imageIndex) => (
+                      <Image
+                        key={imageIndex}
+                        source={{ uri: image }}
+                        style={styles.postImage}
+                        resizeMode="cover"
+                      />
+                    ))}
+                  </Swiper>
+                </View>
+              )}
+            </View>
+          );
+        })}
       </ScrollView>
+
+      <Bttn onPress={selectImage}>
+        <Ionicons name="add-circle" size={64} color="#9746ff" />
+      </Bttn>
     </View>
   );
 };
@@ -118,41 +165,41 @@ export default MainScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  button: {
-    position: "absolute",
-    right: 30,
-    top: 80,
-    zIndex: 1,
+    backgroundColor: "white",
+    marginBottom: 80,
   },
   ScrollView: {
     alignItems: "center",
-    paddingTop: 130,
+    paddingTop: 30,
   },
-  postContainer: {
-    marginBottom: 0,
-    // alignItems: "center",
-  },
+
   postText: {
-    marginTop: 10,
+    marginTop: 0,
+    marginLeft: 30,
+    fontSize: 17,
+    marginBottom: 13,
+    color: "#999",
     // textAlign: "left",
     // paddingLeft: 50,
   },
   postLocation: {
-    marginBottom: 10,
+    fontSize: 21,
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
     // textAlign: "left",
     // paddingLeft: 50,
   },
   imageContainer: {
     alignItems: "center",
-    height: 300,
-    width: 300,
+    height: 250,
+    width: "100%",
+    // width: 300,
   },
   postImage: {
     flex: 1,
     width: "100%",
     height: "100%",
-    aspectRatio: 1,
+    // aspectRatio: 1,
   },
 });
 
