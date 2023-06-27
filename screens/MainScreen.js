@@ -129,10 +129,13 @@ const MainScreen = ({ navigation }) => {
             <View key={index} style={{ marginTop: index === 0 ? 0 : 40 }}>
               <Location>
                 {/* <MaterialIcons name="location-on" size={24} color="black" /> */}
-                <Text style={styles.postLocation}>{post.location}</Text>
+                <Text style={styles.postLocation}>{post.name}</Text>
               </Location>
 
-              <Text style={styles.postText}>{post.content}</Text>
+              <Text style={styles.postText}>{post.caption}</Text>
+              <Text style={styles.postText}>{post.location}</Text>
+              <Text style={styles.postText}>{post.tags}</Text>
+              <Text style={styles.postText}>{post.rating}</Text>
 
               {post.images && (
                 <View style={styles.imageContainer}>

@@ -51,17 +51,17 @@ const TitleInputContainer = styled.View`
 `;
 
 const TitleInput = styled.TextInput`
-  font-size: 28px;
+  font-size: 26px;
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 12px;
 `;
 
-const CaptionInput = styled.TextInput`
-  font-size: 23px;
+const Input = styled.TextInput`
+  font-size: 18px;
   padding-left: 30px;
   padding-right: 30px;
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   margin-top: 20px;
 `;
 
@@ -74,20 +74,38 @@ const Submit = styled.TouchableOpacity`
 `;
 
 const SubmitText = styled.Text`
-  font-size: 20px;
+  font-size: 19px;
   color: white;
   text-align: center;
   padding: 10px;
 `;
 
+const Line = styled.View`
+  width: 90%;
+  margin-left: 5%;
+
+  border-bottom-color: #eee;
+  border-bottom-width: 1px;
+`;
+
 const CreatePostScreen = ({ navigation, route }) => {
   const { addPost } = useContext(PostContext);
-  const [content, setContent] = useState("");
+  const [caption, setCaption] = useState("");
+  const [name, setName] = useState("");
+  const [tags, setTags] = useState("");
+  const [rating, setRating] = useState("");
   const [location, setLocation] = useState("");
   // console.log(route.params.images);
 
   const handleSubmit = () => {
-    addPost({ content, location, images: route.params.images });
+    addPost({
+      location,
+      rating,
+      tags,
+      caption,
+      name,
+      images: route.params.images,
+    });
     navigation.goBack();
   };
 
@@ -101,20 +119,47 @@ const CreatePostScreen = ({ navigation, route }) => {
         <TitleInputContainer>
           <TitleInput
             placeholder={"가게명"}
-            value={location}
-            onChangeText={setLocation}
+            value={name}
+            onChangeText={setName}
           />
         </TitleInputContainer>
         <ImgContainer>
           <Img source={{ uri: route.params.images[0] }} resizeMode="cover" />
         </ImgContainer>
 
-        <CaptionInput
+        <Input
+          label="Caption"
+          value={caption}
+          placeholder={"Write a caption"}
+          onChangeText={setCaption}
+        ></Input>
+
+        <Line />
+
+        <Input
           label="Location"
-          value={content}
-          placeholder={"Write a caption..."}
-          onChangeText={setContent}
-        ></CaptionInput>
+          value={location}
+          placeholder={"Add location"}
+          onChangeText={setLocation}
+        ></Input>
+
+        <Line />
+
+        <Input
+          label="Tags"
+          value={tags}
+          placeholder={"Add tags"}
+          onChangeText={setTags}
+        ></Input>
+
+        <Line />
+
+        <Input
+          label="Rating"
+          value={rating}
+          placeholder={"Rating"}
+          onChangeText={setRating}
+        ></Input>
 
         <Submit onPress={handleSubmit}>
           <SubmitText>Submit</SubmitText>
