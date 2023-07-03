@@ -1,24 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import styled from "styled-components/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import React, { useContext, useEffect, useState } from "react";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import {
-  Ionicons,
-  FontAwesome,
-  MaterialIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PostContext } from "../contexts/PostContext";
 import Swiper from "react-native-swiper";
+import styled from "styled-components/native";
 
 const Header = styled.View`
   display: flex;
@@ -51,6 +39,13 @@ const Bttn = styled.TouchableOpacity`
   position: absolute;
   bottom: 30px;
   right: 30px;
+  z-index: 1;
+`;
+
+const BttnLeft = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 36px;
+  left: 30px;
   z-index: 1;
 `;
 
@@ -138,12 +133,7 @@ const MainScreen = ({ navigation }) => {
                 <View style={styles.imageContainer}>
                   <Swiper showsButtons={false}>
                     {post.images.map((image, imageIndex) => (
-                      <Image
-                        key={imageIndex}
-                        source={{ uri: image }}
-                        style={styles.postImage}
-                        resizeMode="cover"
-                      />
+                      <Image key={imageIndex} source={{ uri: image }} style={styles.postImage} resizeMode="cover" />
                     ))}
                   </Swiper>
                 </View>
@@ -156,6 +146,13 @@ const MainScreen = ({ navigation }) => {
       <Bttn onPress={selectImage}>
         <Ionicons name="add-circle" size={64} color="#9746ff" />
       </Bttn>
+      <BttnLeft
+        style={{ backgroundColor: "#9746ff", borderRadius: 32, width: 54, height: 54 }}
+        onPress={() => navigation.navigate("Maps")}>
+        <View flex={1} style={{ justifyContent: "center", alignItems: "center" }}>
+          <Ionicons name="map-outline" size={32} color="#ffffff" />
+        </View>
+      </BttnLeft>
     </View>
   );
 };
