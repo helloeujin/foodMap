@@ -1,6 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 // import { Button, TextInput } from "react-native-paper";
-import { View } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
 import { PostContext } from "../contexts/PostContext";
 import styled from "styled-components/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -88,13 +94,35 @@ const Line = styled.View`
   border-bottom-width: 1px;
 `;
 
+const TagsInput = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 20px 30px;
+`;
+
+const Tag = styled.View`
+  padding: 5px;
+  background-color: #eee;
+  borderradius: 5px;
+  margin: 2px;
+`;
+
+const TagInput = styled.TextInput`
+  flex: 1;
+  font-size: 18px;
+`;
+
 const CreatePostScreen = ({ navigation, route }) => {
   const { addPost } = useContext(PostContext);
   const [caption, setCaption] = useState("");
   const [name, setName] = useState("");
-  const [tags, setTags] = useState("");
   const [rating, setRating] = useState("");
   const [location, setLocation] = useState("");
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState("");
+  const inputRef = useRef();
+  const [showPlaceholder, setShowPlaceholder] = useState(true);
   // console.log(route.params.images);
 
   const handleSubmit = () => {
@@ -107,6 +135,30 @@ const CreatePostScreen = ({ navigation, route }) => {
       images: route.params.images,
     });
     navigation.goBack();
+  };
+
+  const handleTagInput = (text) => {
+    if (text === "") {
+      setShowPlaceholder(true); // 사용자가 모든 텍스트를 지우면 플레이스홀더를 다시 표시
+    }
+    if (text.includes(" ")) {
+      // 스페이스를 포함하는 경우
+      if (text.trim() !== "" && !tags.includes(text.trim())) {
+        // 입력된 문자열이 공백이 아니고, 이미 존재하는 태그가 아닌 경우에만 추가
+        setTags([...tags, text.trim()]);
+      }
+      setTag(""); // 현재 태그를 초기화
+    } else {
+      setShowPlaceholder(false); // 사용자가 타이핑을 시작하면 플레이스홀더를 숨김
+      setTag(text); // 입력 중인 태그를 업데이트
+    }
+  };
+
+  const handleKeyPress = ({ nativeEvent }) => {
+    if (nativeEvent.key === "Backspace" && tag === "") {
+      // 백스페이스를 누르고 현재 태그가 비어있으면 마지막 태그 삭제
+      setTags((prevTags) => prevTags.slice(0, prevTags.length - 1));
+    }
   };
 
   return (
@@ -145,12 +197,36 @@ const CreatePostScreen = ({ navigation, route }) => {
 
         <Line />
 
-        <Input
-          label="Tags"
-          value={tags}
-          placeholder={"Add tags"}
-          onChangeText={setTags}
-        ></Input>
+        <TagsInput>
+          {tags
+            ? tags.map((tag, index) => (
+                <Tag key={index}>
+                  <Text>{tag}</Text>
+                </Tag>
+              ))
+            : ""}
+          <TagInput
+            ref={inputRef}
+            value={tag}
+            onChangeText={handleTagInput}
+            onKeyPress={handleKeyPress}
+            onBlur={() => {
+              Keyboard.dismiss();
+              if (tag === "") {
+                setShowPlaceholder(true); // 입력란이 포커스를 잃고 텍스트가 없으면 플레이스홀더를 다시 표시
+              }
+            }}
+            onSubmitEditing={() => {
+              if (tag.trim() !== "" && !tags.includes(tag.trim())) {
+                // 입력된 문자열이 공백이 아니고, 이미 존재하는 태그가 아닌 경우에만 추가
+                setTags([...tags, tag.trim()]);
+              }
+              setTag(""); // 현재 태그를 초기화
+            }}
+            placeholder={showPlaceholder ? "Add tags" : ""}
+            blurOnSubmit={false}
+          />
+        </TagsInput>
 
         <Line />
 

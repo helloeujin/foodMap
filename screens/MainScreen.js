@@ -134,7 +134,13 @@ const MainScreen = ({ navigation }) => {
 
               <Text style={styles.postText}>{post.caption}</Text>
               <Text style={styles.postText}>{post.location}</Text>
-              <Text style={styles.postText}>{post.tags}</Text>
+              <Text style={styles.postText}>
+                {post.tags
+                  ? post.tags.map((tag, index) => (
+                      <Text key={index}>{"#" + tag + " "}</Text>
+                    ))
+                  : ""}
+              </Text>
               <Text style={styles.postText}>{post.rating}</Text>
 
               {post.images && (
