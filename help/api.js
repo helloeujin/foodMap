@@ -14,17 +14,22 @@ const boundary = {
 };
 
 // Function to search for a place using a text query
-export const searchPlaces = async (text) => {
+/**
+ * @param text
+ * @param latitude
+ * @param longitude
+ * @param radius meter
+ * @returns results Array
+ */
+export const searchPlaces = async (text, { latitude, longitude, radius }) => {
   const encodedText = encodeUrl(text);
-  const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedText}&key=${apiKey}&language=ko`;
+  const apiUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedText}&key=${apiKey}&language=ko&location=${latitude},${longitude}&radius=${radius}`;
 
   try {
     const response = await fetch(apiUrl);
-    console.log("🚀 ~ file: api.js:23 ~ searchPlaces ~ response:", response);
-    const results = response.data;
-    console.log("🚀 ~ file: api.js:24 ~ searchPlaces ~ results:", results);
+    const response2 = await response.json();
 
-    return results;
+    return response2.results;
   } catch (error) {
     console.error("Error:", error.message);
   }

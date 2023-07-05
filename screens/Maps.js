@@ -1,4 +1,4 @@
-import { Button, Text, TextInput, View } from "react-native";
+import { Button, Text, TextInput, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import React, { useEffect, useState } from "react";
 
@@ -30,11 +30,16 @@ function Maps(props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentRegion, setCurrentRegion] = useState(null);
+
+  const handleRegionChangeComplete = (region) => {
+    console.log(region);
+    setCurrentRegion(region);
+  };
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
-        console.log("position.coords", position.coords);
         setCurrentLocation(position.coords);
       },
       (error) => {
@@ -46,13 +51,9 @@ function Maps(props) {
 
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
-      searchPlaces(searchQuery)
+      searchPlaces(searchQuery, { ...currentRegion, radius: 1000 })
         .then((response) => {
-          console.log(response);
-          response.json();
-        })
-        .then((data) => {
-          setSearchResults(data.results);
+          response.map((r) => console.log(r?.name));
         })
         .catch((error) => {
           console.log(error);
@@ -72,22 +73,49 @@ function Maps(props) {
             latitudeDelta: 0.002,
             longitudeDelta: 0.002,
           }}
+          showsMyLocationButton
+          onRegionChangeComplete={handleRegionChangeComplete}
         />
       </View>
-      <View style={{ flex: 1, flexDirection: "row", position: "absolute", width: "100%", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          position: "absolute",
+          width: "100%",
+          alignItems: "center",
+          marginTop: 30,
+          justifyContent: "space-around",
+        }}>
         <TextInput
           style={{
-            backgroundColor: "gray",
+            borderWidth: 1,
+            backgroundColor: "white",
             fontColor: "white",
             width: "50%",
             height: 50,
-            marginTop: 30,
+            borderRadius: 5,
             marginLeft: 20,
           }}
           placeholder="Search for a place..."
           onChangeText={(text) => setSearchQuery(text)}
         />
-        <Button style={{ backgroundColor: "white", height: 50 }} title="Search" onPress={handleSearch} color="red" />
+        <TouchableOpacity
+          style={{
+            backgroundColor: "white",
+            height: 50,
+            borderColor: "black",
+            borderWidth: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            marginHorizontal: 10,
+            borderRadius: 5,
+          }}
+          title="Search"
+          onPress={handleSearch}
+          color="red">
+          <Text style={{ color: "#9746ff", marginHorizontal: 20 }}>Search</Text>
+        </TouchableOpacity>
       </View>
       <BttnLeft
         style={{ backgroundColor: "#9746ff", borderRadius: 32, width: 54, height: 54 }}
