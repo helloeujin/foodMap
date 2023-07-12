@@ -59,6 +59,13 @@ const Txt = styled.Text`
   font-size: 14px;
 `;
 
+const RatingBox = styled.View`
+  padding-top: 13px;
+  flex-direction: row;
+  padding-left: 30px;
+  padding-bottom: 20px;
+`;
+
 const MainScreen = ({ navigation }) => {
   // const [resourcePath, setResourcePath] = useState({});
   const { posts, addPost } = useContext(PostContext);
@@ -141,7 +148,41 @@ const MainScreen = ({ navigation }) => {
                     ))
                   : ""}
               </Text>
-              <Text style={styles.postText}>{post.rating}</Text>
+
+              {/* <Text style={styles.postText}>{post.rating}</Text> */}
+
+              <RatingBox>
+                <FontAwesome
+                  name={post.rating >= 1 ? "star" : "star-o"}
+                  style={styles.star}
+                  size={24}
+                  color="black"
+                />
+                <FontAwesome
+                  name={post.rating >= 2 ? "star" : "star-o"}
+                  style={styles.star}
+                  size={24}
+                  color="black"
+                />
+                <FontAwesome
+                  name={post.rating >= 3 ? "star" : "star-o"}
+                  style={styles.star}
+                  size={24}
+                  color="black"
+                />
+                <FontAwesome
+                  name={post.rating >= 4 ? "star" : "star-o"}
+                  style={styles.star}
+                  size={24}
+                  color="black"
+                />
+                <FontAwesome
+                  name={post.rating === 5 ? "star" : "star-o"}
+                  style={styles.star}
+                  size={24}
+                  color="black"
+                />
+              </RatingBox>
 
               {post.images && (
                 <View style={styles.imageContainer}>
@@ -209,6 +250,9 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     // aspectRatio: 1,
+  },
+  star: {
+    paddingRight: 8,
   },
 });
 

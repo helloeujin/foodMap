@@ -5,11 +5,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  StyleSheet,
   Keyboard,
 } from "react-native";
 import { PostContext } from "../contexts/PostContext";
 import styled from "styled-components/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 
 // ELEMENTS
 const Container = styled.ScrollView`
@@ -113,6 +114,18 @@ const TagInput = styled.TextInput`
   font-size: 18px;
 `;
 
+const RatingInput = styled.View`
+  flex-direction: row;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+`;
+
+const Rating = styled.TouchableOpacity`
+  padding-right: 10px;
+`;
+
 const CreatePostScreen = ({ navigation, route }) => {
   const { addPost } = useContext(PostContext);
   const [caption, setCaption] = useState("");
@@ -159,6 +172,10 @@ const CreatePostScreen = ({ navigation, route }) => {
       // 백스페이스를 누르고 현재 태그가 비어있으면 마지막 태그 삭제
       setTags((prevTags) => prevTags.slice(0, prevTags.length - 1));
     }
+  };
+
+  const handleRating = (num) => {
+    setRating(num);
   };
 
   return (
@@ -229,13 +246,51 @@ const CreatePostScreen = ({ navigation, route }) => {
         </TagsInput>
 
         <Line />
-
+        {/* 
         <Input
           label="Rating"
           value={rating}
           placeholder={"Rating"}
           onChangeText={setRating}
-        ></Input>
+        ></Input> */}
+
+        <RatingInput>
+          <Rating onPress={() => handleRating(1)}>
+            <FontAwesome
+              name={rating >= 1 ? "star" : "star-o"}
+              size={24}
+              color="black"
+            />
+          </Rating>
+          <Rating onPress={() => handleRating(2)}>
+            <FontAwesome
+              name={rating >= 2 ? "star" : "star-o"}
+              size={24}
+              color="black"
+            />
+          </Rating>
+          <Rating onPress={() => handleRating(3)}>
+            <FontAwesome
+              name={rating >= 3 ? "star" : "star-o"}
+              size={24}
+              color="black"
+            />
+          </Rating>
+          <Rating onPress={() => handleRating(4)}>
+            <FontAwesome
+              name={rating >= 4 ? "star" : "star-o"}
+              size={24}
+              color="black"
+            />
+          </Rating>
+          <Rating onPress={() => handleRating(5)}>
+            <FontAwesome
+              name={rating === 5 ? "star" : "star-o"}
+              size={24}
+              color="black"
+            />
+          </Rating>
+        </RatingInput>
 
         <Submit onPress={handleSubmit}>
           <SubmitText>Submit</SubmitText>
@@ -246,6 +301,14 @@ const CreatePostScreen = ({ navigation, route }) => {
 };
 
 export default CreatePostScreen;
+
+// const styles = StyleSheet.create({
+//   star: {
+//     flexDirection: "row",
+//     paddingLeft: 0,
+//     paddingRight: 8,
+//   },
+// });
 
 {
   /* <TextInput
