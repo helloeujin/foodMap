@@ -178,6 +178,18 @@ const CreatePostScreen = ({ navigation, route }) => {
     setRating(num);
   };
 
+  const handleBlur = () => {
+    if (tag.trim() !== "" && !tags.includes(tag.trim())) {
+      // 입력된 문자열이 공백이 아니고, 이미 존재하는 태그가 아닌 경우에만 추가
+      setTags([...tags, tag.trim()]);
+    }
+    setTag(""); // 현재 태그를 초기화
+    if (tag.trim() === "" && tags.length === 0) {
+      // 입력란에 텍스트가 없고, 추가된 태그도 없는 경우에만 플레이스 홀더를 표시
+      setShowPlaceholder(true);
+    }
+  };
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <Container>
@@ -227,12 +239,7 @@ const CreatePostScreen = ({ navigation, route }) => {
             value={tag}
             onChangeText={handleTagInput}
             onKeyPress={handleKeyPress}
-            onBlur={() => {
-              Keyboard.dismiss();
-              if (tag === "") {
-                setShowPlaceholder(true); // 입력란이 포커스를 잃고 텍스트가 없으면 플레이스홀더를 다시 표시
-              }
-            }}
+            onBlur={handleBlur}
             onSubmitEditing={() => {
               if (tag.trim() !== "" && !tags.includes(tag.trim())) {
                 // 입력된 문자열이 공백이 아니고, 이미 존재하는 태그가 아닌 경우에만 추가
