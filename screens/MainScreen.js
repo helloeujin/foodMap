@@ -20,38 +20,71 @@ import {
 import { PostContext } from "../contexts/PostContext";
 import Swiper from "react-native-swiper";
 
+const Container = styled.View`
+  padding-top: 0px;
+  flex: 1;
+  background-color: white;
+`;
+
 const Header = styled.View`
   display: flex;
-  height: 120px;
+  flex: 1.4;
   justify-content: flex-start;
   align-items: flex-end;
   flex-direction: row;
   padding: 10px 30px;
-
-  border-bottom-color: #eee;
-  border-bottom-width: 1px;
 `;
 
 const HeaderText = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
-  margin-left: 10px;
+  margin-left: 8px;
+`;
+
+const Search = styled.View`
+  flex: 0.8;
+  padding: 23px 30px 10px 30px;
+`;
+
+const SearchArea = styled.View`
+  border: 0.75px solid #333;
+  height: 80%;
+  border-radius: 30px;
+  justify-content: center;
+`;
+
+const Posts = styled.ScrollView`
+  flex: 7;
+  background-color: #f4f4f4;
+`;
+
+const NavBar = styled.View`
+  flex: 1;
 `;
 
 const Location = styled.View`
   display: flex;
-  height: 50px;
+  flex: 5;
   justify-content: flex-start;
   align-items: flex-end;
   flex-direction: row;
   padding: 10px 30px;
+  border: 1px solid red;
 `;
 
 const Bttn = styled.TouchableOpacity`
   position: absolute;
-  bottom: 30px;
-  right: 30px;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -28px;
   z-index: 1;
+  border: 0.75px solid black;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Txt = styled.Text`
@@ -123,13 +156,30 @@ const MainScreen = ({ navigation }) => {
 
   // console.log(posts);
   return (
-    <View style={styles.container}>
+    <Container>
       <Header>
         <MaterialCommunityIcons name="face-man" size={30} color="black" />
-        <HeaderText>Youjin</HeaderText>
+        <HeaderText>Youjin's Map</HeaderText>
       </Header>
 
-      <ScrollView contentContainerStyle={styles.ScrollView}>
+      <Search>
+        <SearchArea>
+          {/* <FontAwesome
+            name="search"
+            size={22}
+            color="black"
+            style={styles.searchIcon}
+          /> */}
+          <Ionicons
+            name="ios-search"
+            size={20}
+            color="#333"
+            style={styles.searchIcon}
+          />
+        </SearchArea>
+      </Search>
+
+      <Posts>
         {posts.map((temp, index) => {
           const post = posts[posts.length - 1 - index];
           return (
@@ -201,58 +251,48 @@ const MainScreen = ({ navigation }) => {
             </View>
           );
         })}
-      </ScrollView>
+      </Posts>
 
       <Bttn onPress={selectImage}>
-        <Ionicons name="add-circle" size={64} color="#9746ff" />
+        {/* <Ionicons name="add-circle" size={64} color="#9746ff" /> */}
+        <FontAwesome name="camera" size={30} color="black" />
       </Bttn>
-    </View>
+
+      <NavBar></NavBar>
+    </Container>
   );
 };
 
 export default MainScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    marginBottom: 80,
-  },
-  ScrollView: {
-    alignItems: "center",
-    paddingTop: 30,
-  },
-
   postText: {
     marginTop: 0,
     marginLeft: 30,
     fontSize: 17,
     marginBottom: 13,
     color: "#999",
-    // textAlign: "left",
-    // paddingLeft: 50,
   },
   postLocation: {
     fontSize: 21,
     borderBottomColor: "black",
     borderBottomWidth: 1,
-    // textAlign: "left",
-    // paddingLeft: 50,
   },
   imageContainer: {
     alignItems: "center",
     height: 250,
     width: "100%",
-    // width: 300,
   },
   postImage: {
     flex: 1,
     width: "100%",
     height: "100%",
-    // aspectRatio: 1,
   },
   star: {
     paddingRight: 8,
+  },
+  searchIcon: {
+    marginLeft: 12,
   },
 });
 
