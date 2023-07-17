@@ -28,7 +28,7 @@ const Container = styled.View`
 
 const Header = styled.View`
   display: flex;
-  flex: 1.4;
+  flex: 1.5;
   justify-content: flex-start;
   align-items: flex-end;
   flex-direction: row;
@@ -38,12 +38,12 @@ const Header = styled.View`
 const HeaderText = styled.Text`
   font-size: 20px;
   font-weight: 600;
-  margin-left: 8px;
+  margin-left: 4px;
 `;
 
 const Search = styled.View`
   flex: 0.8;
-  padding: 23px 30px 10px 30px;
+  padding: 18px 30px 10px 30px;
 `;
 
 const SearchArea = styled.View`
@@ -59,7 +59,7 @@ const Posts = styled.ScrollView`
 `;
 
 const NavBar = styled.View`
-  flex: 1;
+  flex: 1.3;
 `;
 
 const Location = styled.View`
@@ -158,7 +158,12 @@ const MainScreen = ({ navigation }) => {
   return (
     <Container>
       <Header>
-        <MaterialCommunityIcons name="face-man" size={30} color="black" />
+        {/* <MaterialCommunityIcons name="face-man" size={30} color="black" /> */}
+        <Image
+          source={require("../img/profile.png")}
+          style={{ width: 43, height: 43, marginBottom: -5 }}
+        />
+
         <HeaderText>Youjin's Map</HeaderText>
       </Header>
 
