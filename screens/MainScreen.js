@@ -15,32 +15,62 @@ import {
   FontAwesome,
   MaterialIcons,
   MaterialCommunityIcons,
+  FontAwesome5,
 } from "@expo/vector-icons";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PostContext } from "../contexts/PostContext";
 import Swiper from "react-native-swiper";
 
+const Container = styled.View`
+  padding-top: 0px;
+  flex: 1;
+  background-color: white;
+`;
+
 const Header = styled.View`
   display: flex;
-  height: 120px;
+  flex: 1.5;
   justify-content: flex-start;
   align-items: flex-end;
   flex-direction: row;
   padding: 10px 30px;
-
-  border-bottom-color: #eee;
-  border-bottom-width: 1px;
 `;
 
 const HeaderText = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
-  margin-left: 10px;
+  margin-left: 4px;
+`;
+
+const Search = styled.View`
+  flex: 0.8;
+  padding: 18px 30px 10px 30px;
+`;
+
+const SearchArea = styled.View`
+  border: 0.75px solid #333;
+  height: 80%;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+
+const Posts = styled.ScrollView`
+  flex: 7;
+  background-color: #f7f7f7;
+`;
+
+const NavBar = styled.View`
+  flex: 1.3;
 `;
 
 const Location = styled.View`
   display: flex;
-  height: 50px;
+  flex: 5;
   justify-content: flex-start;
   align-items: flex-end;
   flex-direction: row;
@@ -49,9 +79,17 @@ const Location = styled.View`
 
 const Bttn = styled.TouchableOpacity`
   position: absolute;
-  bottom: 30px;
-  right: 30px;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -28px;
   z-index: 1;
+  border: 0.75px solid black;
+  width: 56px;
+  height: 56px;
+  border-radius: 40px;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Txt = styled.Text`
@@ -60,10 +98,12 @@ const Txt = styled.Text`
 `;
 
 const RatingBox = styled.View`
+  position: absolute;
   padding-top: 13px;
   flex-direction: row;
   padding-left: 30px;
   padding-bottom: 20px;
+  right: 10px;
 `;
 
 const MainScreen = ({ navigation }) => {
@@ -123,33 +163,64 @@ const MainScreen = ({ navigation }) => {
 
   // console.log(posts);
   return (
-    <View style={styles.container}>
+    <Container>
       <Header>
-        <MaterialCommunityIcons name="face-man" size={30} color="black" />
-        <HeaderText>Youjin</HeaderText>
+        <Image
+          source={require("../img/profile.png")}
+          style={{ width: 43, height: 43, marginBottom: -5 }}
+        />
+        <HeaderText>Youjin's Map</HeaderText>
       </Header>
 
-      <ScrollView contentContainerStyle={styles.ScrollView}>
+      <Search>
+        <SearchArea>
+          <Ionicons
+            name="ios-search"
+            size={20}
+            color="#333"
+            // style={styles.searchIcon}
+          />
+          <View>
+            <MaterialIcons name="tag" size={24} color="#bbb" />
+          </View>
+        </SearchArea>
+      </Search>
+
+      <Posts>
         {posts.map((temp, index) => {
           const post = posts[posts.length - 1 - index];
           return (
-            <View key={index} style={{ marginTop: index === 0 ? 0 : 40 }}>
-              <Location>
-                {/* <MaterialIcons name="location-on" size={24} color="black" /> */}
-                <Text style={styles.postLocation}>{post.name}</Text>
-              </Location>
+            <View
+              key={index}
+              style={{ marginTop: index === 0 ? 0 : 40, marginBottom: 40 }}
+            >
+              {post.images && (
+                <View style={styles.imageContainer}>
+                  <Swiper showsButtons={false}>
+                    {post.images.map((image, imageIndex) => (
+                      <Image
+                        key={"img" + imageIndex}
+                        source={{ uri: image }}
+                        style={styles.postImage}
+                        resizeMode="cover"
+                      />
+                    ))}
+                  </Swiper>
+                </View>
+              )}
 
+              <Text style={styles.postLocation}>{post.location}</Text>
               <Text style={styles.postText}>{post.caption}</Text>
-              <Text style={styles.postText}>{post.location}</Text>
-              <Text style={styles.postText}>
+
+              <Text style={styles.postTags}>
                 {post.tags
                   ? post.tags.map((tag, index) => (
-                      <Text key={index}>{"#" + tag + " "}</Text>
+                      <View style={styles.postTag}>
+                        <Text key={index}>{"#" + tag}</Text>
+                      </View>
                     ))
                   : ""}
               </Text>
-
-              {/* <Text style={styles.postText}>{post.rating}</Text> */}
 
               <RatingBox>
                 <FontAwesome
@@ -183,76 +254,64 @@ const MainScreen = ({ navigation }) => {
                   color="black"
                 />
               </RatingBox>
-
-              {post.images && (
-                <View style={styles.imageContainer}>
-                  <Swiper showsButtons={false}>
-                    {post.images.map((image, imageIndex) => (
-                      <Image
-                        key={imageIndex}
-                        source={{ uri: image }}
-                        style={styles.postImage}
-                        resizeMode="cover"
-                      />
-                    ))}
-                  </Swiper>
-                </View>
-              )}
             </View>
           );
         })}
-      </ScrollView>
+      </Posts>
 
       <Bttn onPress={selectImage}>
-        <Ionicons name="add-circle" size={64} color="#9746ff" />
+        <FontAwesome name="camera" size={30} color="black" />
       </Bttn>
-    </View>
+
+      <NavBar></NavBar>
+    </Container>
   );
 };
 
 export default MainScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    marginBottom: 80,
-  },
-  ScrollView: {
-    alignItems: "center",
-    paddingTop: 30,
-  },
-
   postText: {
     marginTop: 0,
     marginLeft: 30,
-    fontSize: 17,
+    fontSize: 15,
     marginBottom: 13,
-    color: "#999",
-    // textAlign: "left",
-    // paddingLeft: 50,
+    color: "#333",
+  },
+  postTags: {
+    marginLeft: 30,
+  },
+  postTag: {
+    borderColor: "#333",
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 4,
+    fontSize: 14,
   },
   postLocation: {
-    fontSize: 21,
+    fontSize: 19,
     borderBottomColor: "black",
     borderBottomWidth: 1,
-    // textAlign: "left",
-    // paddingLeft: 50,
+    marginLeft: 30,
+    paddingTop: 16,
+    paddingBottom: 10,
+    fontWeight: "bold",
   },
   imageContainer: {
     alignItems: "center",
     height: 250,
     width: "100%",
-    // width: 300,
   },
   postImage: {
     flex: 1,
     width: "100%",
     height: "100%",
-    // aspectRatio: 1,
   },
   star: {
-    paddingRight: 8,
+    paddingRight: 6,
+  },
+  searchIcon: {
+    marginLeft: 12,
   },
 });
 
