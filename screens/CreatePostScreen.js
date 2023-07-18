@@ -44,6 +44,7 @@ const ImgContainer = styled.View`
   align-items: center;
   height: 230px;
   width: 100%;
+  margin-bottom: 10px;
 `;
 
 const Img = styled.Image`
@@ -52,25 +53,8 @@ const Img = styled.Image`
   height: 100%;
 `;
 
-const TitleInputContainer = styled.View`
-  display: flex;
-  height: 70px;
-
-  margin-left: 0px;
-  justify-content: flex-start;
-  align-items: flex-end;
-  flex-direction: row;
-`;
-
-const TitleInput = styled.TextInput`
-  font-size: 26px;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-bottom: 12px;
-`;
-
 const Input = styled.TextInput`
-  font-size: 18px;
+  font-size: 16px;
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 8px;
@@ -113,12 +97,12 @@ const Tag = styled.View`
   padding: 5px;
   background-color: #eee;
   borderradius: 5px;
-  margin: 2px;
+  margin: 4px;
 `;
 
 const TagInput = styled.TextInput`
   flex: 1;
-  font-size: 18px;
+  font-size: 16px;
 `;
 
 const RatingInput = styled.View`
@@ -196,13 +180,6 @@ const CreatePostScreen = ({ navigation, route }) => {
       </Header>
 
       <InputArea>
-        {/* <TitleInputContainer>
-          <TitleInput
-            placeholder={"가게명"}
-            value={name}
-            onChangeText={setName}
-          />
-        </TitleInputContainer> */}
         <ImgContainer>
           <Img source={{ uri: route.params.images[0] }} resizeMode="cover" />
         </ImgContainer>
@@ -256,13 +233,6 @@ const CreatePostScreen = ({ navigation, route }) => {
         </TagsInput>
 
         <Line />
-        {/* 
-        <Input
-          label="Rating"
-          value={rating}
-          placeholder={"Rating"}
-          onChangeText={setRating}
-        ></Input> */}
 
         <RatingInput>
           <Rating onPress={() => handleRating(1)}>
@@ -271,12 +241,6 @@ const CreatePostScreen = ({ navigation, route }) => {
               size={24}
               color="black"
             />
-            {/* <FontAwesome
-              name={rating >= 2 ? "star" : "star-o"}
-              size={24}
-              color="#FF6A00"
-              style={styles.star}
-            /> */}
           </Rating>
           <Rating onPress={() => handleRating(2)}>
             <FontAwesome
@@ -324,14 +288,3 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
-
-{
-  /* <TextInput
-label="Content"
-value={content}
-onChangeText={setContent}
-multiline
-/>
-<TextInput label="Location" value={location} onChangeText={setLocation} />
-<Button onPress={handleSubmit}>Submit</Button> */
-}

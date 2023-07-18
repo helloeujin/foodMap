@@ -61,7 +61,7 @@ const SearchArea = styled.View`
 
 const Posts = styled.ScrollView`
   flex: 7;
-  background-color: #f4f4f4;
+  background-color: #f7f7f7;
 `;
 
 const NavBar = styled.View`
@@ -98,10 +98,12 @@ const Txt = styled.Text`
 `;
 
 const RatingBox = styled.View`
+  position: absolute;
   padding-top: 13px;
   flex-direction: row;
   padding-left: 30px;
   padding-bottom: 20px;
+  right: 10px;
 `;
 
 const MainScreen = ({ navigation }) => {
@@ -188,23 +190,37 @@ const MainScreen = ({ navigation }) => {
         {posts.map((temp, index) => {
           const post = posts[posts.length - 1 - index];
           return (
-            <View key={index} style={{ marginTop: index === 0 ? 0 : 40 }}>
-              <Location>
-                {/* <MaterialIcons name="location-on" size={24} color="black" /> */}
-                <Text style={styles.postLocation}>{post.name}</Text>
-              </Location>
+            <View
+              key={index}
+              style={{ marginTop: index === 0 ? 0 : 40, marginBottom: 40 }}
+            >
+              {post.images && (
+                <View style={styles.imageContainer}>
+                  <Swiper showsButtons={false}>
+                    {post.images.map((image, imageIndex) => (
+                      <Image
+                        key={"img" + imageIndex}
+                        source={{ uri: image }}
+                        style={styles.postImage}
+                        resizeMode="cover"
+                      />
+                    ))}
+                  </Swiper>
+                </View>
+              )}
 
+              <Text style={styles.postLocation}>{post.location}</Text>
               <Text style={styles.postText}>{post.caption}</Text>
-              <Text style={styles.postText}>{post.location}</Text>
-              <Text style={styles.postText}>
+
+              <Text style={styles.postTags}>
                 {post.tags
                   ? post.tags.map((tag, index) => (
-                      <Text key={index}>{"#" + tag + " "}</Text>
+                      <View style={styles.postTag}>
+                        <Text key={index}>{"#" + tag}</Text>
+                      </View>
                     ))
                   : ""}
               </Text>
-
-              {/* <Text style={styles.postText}>{post.rating}</Text> */}
 
               <RatingBox>
                 <FontAwesome
@@ -238,28 +254,12 @@ const MainScreen = ({ navigation }) => {
                   color="black"
                 />
               </RatingBox>
-
-              {post.images && (
-                <View style={styles.imageContainer}>
-                  <Swiper showsButtons={false}>
-                    {post.images.map((image, imageIndex) => (
-                      <Image
-                        key={imageIndex}
-                        source={{ uri: image }}
-                        style={styles.postImage}
-                        resizeMode="cover"
-                      />
-                    ))}
-                  </Swiper>
-                </View>
-              )}
             </View>
           );
         })}
       </Posts>
 
       <Bttn onPress={selectImage}>
-        {/* <Ionicons name="add-circle" size={64} color="#9746ff" /> */}
         <FontAwesome name="camera" size={30} color="black" />
       </Bttn>
 
@@ -274,14 +274,28 @@ const styles = StyleSheet.create({
   postText: {
     marginTop: 0,
     marginLeft: 30,
-    fontSize: 17,
+    fontSize: 15,
     marginBottom: 13,
-    color: "#999",
+    color: "#333",
+  },
+  postTags: {
+    marginLeft: 30,
+  },
+  postTag: {
+    borderColor: "#333",
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 4,
+    fontSize: 14,
   },
   postLocation: {
-    fontSize: 21,
+    fontSize: 19,
     borderBottomColor: "black",
     borderBottomWidth: 1,
+    marginLeft: 30,
+    paddingTop: 16,
+    paddingBottom: 10,
+    fontWeight: "bold",
   },
   imageContainer: {
     alignItems: "center",
@@ -294,7 +308,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   star: {
-    paddingRight: 8,
+    paddingRight: 6,
   },
   searchIcon: {
     marginLeft: 12,
