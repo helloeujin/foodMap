@@ -15,6 +15,7 @@ import {
   FontAwesome,
   MaterialIcons,
   MaterialCommunityIcons,
+  FontAwesome5,
 } from "@expo/vector-icons";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PostContext } from "../contexts/PostContext";
@@ -50,7 +51,12 @@ const SearchArea = styled.View`
   border: 0.75px solid #333;
   height: 80%;
   border-radius: 30px;
-  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 const Posts = styled.ScrollView`
@@ -69,7 +75,6 @@ const Location = styled.View`
   align-items: flex-end;
   flex-direction: row;
   padding: 10px 30px;
-  border: 1px solid red;
 `;
 
 const Bttn = styled.TouchableOpacity`
@@ -158,29 +163,24 @@ const MainScreen = ({ navigation }) => {
   return (
     <Container>
       <Header>
-        {/* <MaterialCommunityIcons name="face-man" size={30} color="black" /> */}
         <Image
           source={require("../img/profile.png")}
           style={{ width: 43, height: 43, marginBottom: -5 }}
         />
-
         <HeaderText>Youjin's Map</HeaderText>
       </Header>
 
       <Search>
         <SearchArea>
-          {/* <FontAwesome
-            name="search"
-            size={22}
-            color="black"
-            style={styles.searchIcon}
-          /> */}
           <Ionicons
             name="ios-search"
             size={20}
             color="#333"
-            style={styles.searchIcon}
+            // style={styles.searchIcon}
           />
+          <View>
+            <MaterialIcons name="tag" size={24} color="#bbb" />
+          </View>
         </SearchArea>
       </Search>
 

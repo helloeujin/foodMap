@@ -7,32 +7,37 @@ import {
   TouchableOpacity,
   StyleSheet,
   Keyboard,
+  Image,
 } from "react-native";
 import { PostContext } from "../contexts/PostContext";
 import styled from "styled-components/native";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 
 // ELEMENTS
-const Container = styled.ScrollView`
+const Container = styled.View`
   background-color: white;
+  flex: 1;
 `;
 
 const Header = styled.View`
   display: flex;
-  height: 120px;
+  flex: 1;
   justify-content: flex-start;
   align-items: flex-end;
   flex-direction: row;
   padding: 10px 30px;
-
-  border-bottom-color: #eee;
-  border-bottom-width: 1px;
+  padding-bottom: 20px;
 `;
 
 const HeaderText = styled.Text`
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
-  margin-left: 10px;
+  margin-left: 4px;
+`;
+
+const InputArea = styled.ScrollView`
+  flex: 6;
+  background-color: #f9f9f9;
 `;
 
 const ImgContainer = styled.View`
@@ -73,24 +78,26 @@ const Input = styled.TextInput`
 `;
 
 const Submit = styled.TouchableOpacity`
-  background-color: #9746ff;
-
-  border-radius: 30px;
-  margin: 10px 30px;
+  position: absolute;
+  background-color: #111;
+  border-radius: 42px;
+  left: 20%;
   margin-top: 40px;
+  bottom: 20px;
+  width: 60%;
 `;
 
 const SubmitText = styled.Text`
-  font-size: 19px;
+  font-size: 16px;
   color: white;
   text-align: center;
-  padding: 10px;
+  padding: 10px 10px;
+  letter-spacing: 0.3px;
 `;
 
 const Line = styled.View`
   width: 90%;
   margin-left: 5%;
-
   border-bottom-color: #eee;
   border-bottom-width: 1px;
 `;
@@ -179,37 +186,40 @@ const CreatePostScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
-      <Container>
-        <Header>
-          <MaterialCommunityIcons name="face-man" size={30} color="black" />
-          <HeaderText>Youjin</HeaderText>
-        </Header>
-        <TitleInputContainer>
+    <Container>
+      <Header>
+        <Image
+          source={require("../img/profile.png")}
+          style={{ width: 43, height: 43, marginBottom: -5 }}
+        />
+        <HeaderText>Youjin's Map</HeaderText>
+      </Header>
+
+      <InputArea>
+        {/* <TitleInputContainer>
           <TitleInput
             placeholder={"가게명"}
             value={name}
             onChangeText={setName}
           />
-        </TitleInputContainer>
+        </TitleInputContainer> */}
         <ImgContainer>
           <Img source={{ uri: route.params.images[0] }} resizeMode="cover" />
         </ImgContainer>
-
-        <Input
-          label="Caption"
-          value={caption}
-          placeholder={"Write a caption"}
-          onChangeText={setCaption}
-        ></Input>
-
-        <Line />
 
         <Input
           label="Location"
           value={location}
           placeholder={"Add location"}
           onChangeText={setLocation}
+        ></Input>
+
+        <Line />
+        <Input
+          label="Caption"
+          value={caption}
+          placeholder={"Write a caption"}
+          onChangeText={setCaption}
         ></Input>
 
         <Line />
@@ -261,6 +271,12 @@ const CreatePostScreen = ({ navigation, route }) => {
               size={24}
               color="black"
             />
+            {/* <FontAwesome
+              name={rating >= 2 ? "star" : "star-o"}
+              size={24}
+              color="#FF6A00"
+              style={styles.star}
+            /> */}
           </Rating>
           <Rating onPress={() => handleRating(2)}>
             <FontAwesome
@@ -291,24 +307,23 @@ const CreatePostScreen = ({ navigation, route }) => {
             />
           </Rating>
         </RatingInput>
+      </InputArea>
 
-        <Submit onPress={handleSubmit}>
-          <SubmitText>Submit</SubmitText>
-        </Submit>
-      </Container>
-    </View>
+      <Submit onPress={handleSubmit}>
+        <SubmitText>Save</SubmitText>
+      </Submit>
+    </Container>
   );
 };
 
 export default CreatePostScreen;
 
-// const styles = StyleSheet.create({
-//   star: {
-//     flexDirection: "row",
-//     paddingLeft: 0,
-//     paddingRight: 8,
-//   },
-// });
+const styles = StyleSheet.create({
+  star: {
+    position: "absolute",
+    zIndex: 1,
+  },
+});
 
 {
   /* <TextInput
