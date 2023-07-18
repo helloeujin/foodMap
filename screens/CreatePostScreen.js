@@ -1,14 +1,6 @@
 import React, { useContext, useState, useRef } from "react";
 // import { Button, TextInput } from "react-native-paper";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Keyboard,
-  Image,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, Image } from "react-native";
 import { PostContext } from "../contexts/PostContext";
 import styled from "styled-components/native";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
@@ -184,10 +176,7 @@ const CreatePostScreen = ({ navigation, route }) => {
   return (
     <Container>
       <Header>
-        <Image
-          source={require("../img/profile.png")}
-          style={{ width: 43, height: 43, marginBottom: -5 }}
-        />
+        <Image source={require("../img/profile.png")} style={{ width: 43, height: 43, marginBottom: -5 }} />
         <HeaderText>Youjin's Map</HeaderText>
       </Header>
 
@@ -196,20 +185,10 @@ const CreatePostScreen = ({ navigation, route }) => {
           <Img source={{ uri: route.params.images[0] }} resizeMode="cover" />
         </ImgContainer>
 
-        <Input
-          label="Location"
-          value={location}
-          placeholder={"Add location"}
-          onChangeText={setLocation}
-        ></Input>
+        <Input label="Location" value={location} placeholder={"Add location"} onChangeText={setLocation}></Input>
 
         <Line />
-        <Input
-          label="Caption"
-          value={caption}
-          placeholder={"Write a caption"}
-          onChangeText={setCaption}
-        ></Input>
+        <Input label="Caption" value={caption} placeholder={"Write a caption"} onChangeText={setCaption}></Input>
 
         <Line />
 
@@ -243,39 +222,19 @@ const CreatePostScreen = ({ navigation, route }) => {
 
         <RatingInput>
           <Rating onPress={() => handleRating(1)}>
-            <FontAwesome
-              name={rating >= 1 ? "star" : "star-o"}
-              size={24}
-              color="black"
-            />
+            <FontAwesome name={rating >= 1 ? "star" : "star-o"} size={24} color="black" />
           </Rating>
           <Rating onPress={() => handleRating(2)}>
-            <FontAwesome
-              name={rating >= 2 ? "star" : "star-o"}
-              size={24}
-              color="black"
-            />
+            <FontAwesome name={rating >= 2 ? "star" : "star-o"} size={24} color="black" />
           </Rating>
           <Rating onPress={() => handleRating(3)}>
-            <FontAwesome
-              name={rating >= 3 ? "star" : "star-o"}
-              size={24}
-              color="black"
-            />
+            <FontAwesome name={rating >= 3 ? "star" : "star-o"} size={24} color="black" />
           </Rating>
           <Rating onPress={() => handleRating(4)}>
-            <FontAwesome
-              name={rating >= 4 ? "star" : "star-o"}
-              size={24}
-              color="black"
-            />
+            <FontAwesome name={rating >= 4 ? "star" : "star-o"} size={24} color="black" />
           </Rating>
           <Rating onPress={() => handleRating(5)}>
-            <FontAwesome
-              name={rating === 5 ? "star" : "star-o"}
-              size={24}
-              color="black"
-            />
+            <FontAwesome name={rating === 5 ? "star" : "star-o"} size={24} color="black" />
           </Rating>
         </RatingInput>
       </InputArea>

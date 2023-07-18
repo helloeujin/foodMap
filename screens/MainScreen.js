@@ -1,22 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity, ScrollView } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import {
-  Ionicons,
-  FontAwesome,
-  MaterialIcons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-} from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PostContext } from "../contexts/PostContext";
 import Swiper from "react-native-swiper";
@@ -165,10 +151,7 @@ const MainScreen = ({ navigation }) => {
   return (
     <Container>
       <Header>
-        <Image
-          source={require("../img/profile.png")}
-          style={{ width: 43, height: 43, marginBottom: -5 }}
-        />
+        <Image source={require("../img/profile.png")} style={{ width: 43, height: 43, marginBottom: -5 }} />
         <HeaderText>Youjin's Map</HeaderText>
       </Header>
 
@@ -190,10 +173,7 @@ const MainScreen = ({ navigation }) => {
         {posts.map((temp, index) => {
           const post = posts[posts.length - 1 - index];
           return (
-            <View
-              key={index}
-              style={{ marginTop: index === 0 ? 0 : 40, marginBottom: 40 }}
-            >
+            <View key={index} style={{ marginTop: index === 0 ? 0 : 40, marginBottom: 40 }}>
               {post.images && (
                 <View style={styles.imageContainer}>
                   <Swiper showsButtons={false}>
@@ -223,36 +203,11 @@ const MainScreen = ({ navigation }) => {
               </Text>
 
               <RatingBox>
-                <FontAwesome
-                  name={post.rating >= 1 ? "star" : "star-o"}
-                  style={styles.star}
-                  size={24}
-                  color="black"
-                />
-                <FontAwesome
-                  name={post.rating >= 2 ? "star" : "star-o"}
-                  style={styles.star}
-                  size={24}
-                  color="black"
-                />
-                <FontAwesome
-                  name={post.rating >= 3 ? "star" : "star-o"}
-                  style={styles.star}
-                  size={24}
-                  color="black"
-                />
-                <FontAwesome
-                  name={post.rating >= 4 ? "star" : "star-o"}
-                  style={styles.star}
-                  size={24}
-                  color="black"
-                />
-                <FontAwesome
-                  name={post.rating === 5 ? "star" : "star-o"}
-                  style={styles.star}
-                  size={24}
-                  color="black"
-                />
+                <FontAwesome name={post.rating >= 1 ? "star" : "star-o"} style={styles.star} size={24} color="black" />
+                <FontAwesome name={post.rating >= 2 ? "star" : "star-o"} style={styles.star} size={24} color="black" />
+                <FontAwesome name={post.rating >= 3 ? "star" : "star-o"} style={styles.star} size={24} color="black" />
+                <FontAwesome name={post.rating >= 4 ? "star" : "star-o"} style={styles.star} size={24} color="black" />
+                <FontAwesome name={post.rating === 5 ? "star" : "star-o"} style={styles.star} size={24} color="black" />
               </RatingBox>
             </View>
           );
