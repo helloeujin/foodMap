@@ -147,8 +147,14 @@ const MainScreen = ({ navigation }) => {
         <Ionicons name="add-circle" size={64} color="#9746ff" />
       </Bttn>
       <BttnLeft
-        style={{ backgroundColor: "#9746ff", borderRadius: 32, width: 54, height: 54 }}
-        onPress={() => navigation.navigate("Maps")}>
+        style={{
+          backgroundColor: "#9746ff",
+          borderRadius: 32,
+          width: 54,
+          height: 54,
+        }}
+        onPress={() => navigation.navigate("Maps")}
+      >
         <View flex={1} style={{ justifyContent: "center", alignItems: "center" }}>
           <Ionicons name="map-outline" size={32} color="#ffffff" />
         </View>
