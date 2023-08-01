@@ -45,15 +45,19 @@ function Maps(props) {
       (error) => {
         console.log(error);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   }, []);
+
+  console.log("searchResults", searchResults.length);
 
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
       searchPlaces(searchQuery, { ...currentRegion, radius: 1000 })
         .then((response) => {
           response.map((r) => console.log(r?.name));
+          setSearchResults(response);
+          console.log("ㄷㄴ");
         })
         .catch((error) => {
           console.log(error);
@@ -75,7 +79,23 @@ function Maps(props) {
           }}
           showsMyLocationButton
           onRegionChangeComplete={handleRegionChangeComplete}
-        />
+        >
+          {searchResults.length > 0 ? (
+            searchResults.map((result, i) => (
+              <Marker
+                key={i}
+                coordinate={{
+                  latitude: result.geometry.location.lat,
+                  longitude: result.geometry.location.lng,
+                }}
+                title={result.name}
+                onPress={() => console.log(result.name)}
+              />
+            ))
+          ) : (
+            <></>
+          )}
+        </MapView>
       </View>
       <View
         style={{
@@ -86,7 +106,8 @@ function Maps(props) {
           alignItems: "center",
           marginTop: 30,
           justifyContent: "space-around",
-        }}>
+        }}
+      >
         <TextInput
           style={{
             borderWidth: 1,
@@ -113,13 +134,15 @@ function Maps(props) {
           }}
           title="Search"
           onPress={handleSearch}
-          color="red">
+          color="red"
+        >
           <Text style={{ color: "#9746ff", marginHorizontal: 20 }}>Search</Text>
         </TouchableOpacity>
       </View>
       <BttnLeft
         style={{ backgroundColor: "#9746ff", borderRadius: 32, width: 54, height: 54 }}
-        onPress={() => navigation.goBack()}>
+        onPress={() => navigation.goBack()}
+      >
         <View flex={1} style={{ justifyContent: "center", alignItems: "center" }}>
           <Ionicons name="chevron-back" size={32} color="#ffffff" />
         </View>
